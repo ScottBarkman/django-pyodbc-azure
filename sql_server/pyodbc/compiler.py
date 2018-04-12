@@ -83,6 +83,9 @@ def _cursor_iter(cursor, sentinel, col_count, itersize):
     Yields blocks of rows from a cursor and ensures the cursor is closed when
     done.
     """
+    if hasattr(cursor.db, "supports_mars"):
+        cursor.db.supports_mars = False
+    
     if cursor.db.supports_mars:
         # same as the original Django implementation
         try:
